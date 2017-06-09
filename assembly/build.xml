@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service revision="20170501">
+
+<!--
+  - 配置说明：
+  - 
+  - 1、配置分类：
+  - 	a> build.xml > compile 是全局配置（这里的配置在全局都生效，如果这里配置了，下面两配置里的将不生效）
+  - 	b> build.xml > engine 是通用配置  （这里的配置是通用配置，也就是默认配置）
+  - 	c> project.xml 是个性配置                （这里的配置是针对每个微服务个性配置，它会覆盖通用配置，但不能覆盖全局配置）
+  - 
+  - 2、配置优先级： build.xml - <compile/> 大于 project.xml 大于 build.xml - <engine/>
+  - 
+  - 3、配置里的标记说明：
+  - 	${} 标记：为系统标记，在编译过程中不会处理
+  - 	#{} 标记：为编译变量标记，在编译过程中会根据标记内的变量名与当前JVM环境变量、JVM参数 和 当前配置文件中的参数KEY 进行值匹配。
+  - 			 也可以为变量指定默认值，配置形式 #{keyName:defaultValeu}
+  -->
+
+	<group>com.justep.cloud</group>
+
+	<!-- 编译模式 -->
+	<!-- 
+	  - bundle : 把所有的微服务打到一个包中
+	  - cloud  : 每个微服务都是一个独立的包
+	  -->
+	<compile mode="bundle">
+
+		<!--
+		  - BUNDLE 模式编译配置
+		  -->
+		<bundle>
+			<!-- 设置打包方式是输出成 WAR/JAR -->
+			<property name="packaging" value="WAR"/>
+			<property name="framework" value="maven"/>
+
+			<!-- 编译初始化数据（运行时用） -->
+			<!-- 
+			<data key="KEY" value="VALUE"/>
+			<data key="KEY">VALUE</data>
+			<data key="KEY" type="Map">
+				<entry name="NAME1">VALUE1</entry>
+				<entry name="NAME2">VALUE2</entry>
+			</data>
+			<data key="KEY" type="List">
+				<item>VALUE1</item>
+				<item>VALUE2</item>
+			</data> -->
+
+			<!-- 设置是否打开Lifecycle事件 -->
+			<data key="enableLifecycleEvent" value="true"/>
+			<data key="enableLifecycleEvent">true</data>
+		</bundle>
+
+		<!--
+		  - CLOUD 模式编译配置
+		  -->
+		<cloud>
+			<!-- 引用协议策略 -->
+			<strategy>
+				<protocol order="1">Thrift</protocol>
+				<protocol order="2">REST</protocol>
+				<protocol order="3">GRPC</protocol>
+			</strategy>
+			<!-- 注册中心配置 -->
+			<registry>
+				<connectstr>10.20.141.150:9090,10.20.141.151:9090</connectstr>
+				<timeout>30000</timeout>
+				<auth>[BASE]YWRtaW46MTIzNDU=</auth>
+			</registry>
+		</cloud>
+
+		<!--
+		  - PUBLIC 通用编译配置
+		  -->
+		<!-- 应用上下文根 -->
+		<property name="context.root" value="/service"/>
+
+		<!-- 控制编译结果输出配置 -->
+		<!-- 配置输出形式（默认：NONE） -->
+		<property name="build.modality" value="NONE|ZIP|TAR|TGZ|TBZ|DIR"/>
+		<!-- 配置输出目录 -->
+		<property name="build.output" value="#{JUSTEP_HOME}/model/service/dist"/>
+
+		<!-- 文档输出目录 -->
+		<property name="swagger.output" value="#{JUSTEP_HOME}/tools/swagger"/>
+		<!-- 组件输出目录 -->
+		<property name="component.output" value="#{JUSTEP_HOME}/model/UI2"/>
+	</compile>
+
+	<!-- 引擎插件配置 -->
+	<engine>
+		<!-- Spring framework -->
+		<plugin name="maven">
+			<property name="packaging" value="JAR"/>
+			<property name="language" value="JAVA"/>
+		</plugin>
+
+		<!-- Laravel framework -->
+		<plugin name="laravel">
+			<property name="packaging" value="ZIP"/>
+			<property name="language" value="PHP"/>
+		</plugin>
+	</engine>
+
+	<!-- 数据源配置 -->
+	<datasource>
+		<!-- 读取配置文件配置 -->
+		<target path="#{JUSTEP_HOME}/conf/datasource.xml" />
+		<!-- JDBC 数据源配置 -->
+		<jdbc name="X5Boot-JDBC-Unit" show-sql="true" format-sql="false" ddl-auto="update">
+			<property name="url" value="jdbc:mysql://localhost:3306/test" />
+			<property name="username" value="root" />
+			<property name="password" value="x5" />
+		</jdbc>
+		<!-- 租户数据源配置 -->
+		<tenant name="X5Boot-TENANT-Unit" show-sql="true" format-sql="false">
+			<property name="rds.thrift.port" value="33334" />
+			<property name="rds.thrift.timeout" value="10000" />
+			<property name="rds.thrift.host" value="192.168.1.44" />
+			<property name="hibernate.multiTenancy" value="schema" />
+		</tenant>
+		<!-- JNDI 数据源配置 -->
+		<jndi name="X5Boot-JNDI-Unit" jta="YES|NO">
+			<property name="jndiName" vlaue="jdbc/gox5db" />
+		</jndi>
+
+		<!-- 更多配置（公共配置选项） -->
+		<properties>
+			<property name="initialSize" value="0" />
+			<property name="minIdle" value="1" />
+			<property name="maxActive" value="20" />
+			<property name="maxWait" value="10000" />
+			<property name="minEvictableIdleTimeMillis" value="300000" />
+			<property name="timeBetweenEvictionRunsMillis" value="60000" />
+			<property name="testWhileIdle" value="true" />
+			<property name="testOnBorrow" value="false" />
+			<property name="testOnReturn" value="false" />
+			<property name="validationQuery" value="select 1 " />
+		</properties>
+	</datasource>
+
+</service>
