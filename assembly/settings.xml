@@ -1,0 +1,35 @@
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+
+	<id>assembly-compile</id>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<formats>
+		<format>war</format>
+	</formats>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+			<useProjectArtifact>false</useProjectArtifact>
+		</dependencySet>
+	</dependencySets>
+	<fileSets>
+		<fileSet>
+			<directory>${project.build.outputDirectory}</directory>
+			<outputDirectory>WEB-INF/classes</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/test/resources</directory>
+			<outputDirectory>WEB-INF/classes</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>assembly/lib</directory>
+			<outputDirectory>WEB-INF/lib</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>assembly/webapp</directory>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+	</fileSets>
+
+</assembly>
