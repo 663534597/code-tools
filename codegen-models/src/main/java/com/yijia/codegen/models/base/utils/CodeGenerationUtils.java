@@ -1,11 +1,12 @@
 package com.yijia.codegen.models.base.utils;
 
+import static com.yijia.codegen.models.base.utils.Utils.capitalize;
+import static com.yijia.codegen.models.base.utils.Utils.decapitalize;
+
 import java.io.File;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import static com.yijia.codegen.models.base.utils.Utils.capitalize;
-import static com.yijia.codegen.models.base.utils.Utils.decapitalize;
 
 public final class CodeGenerationUtils {
 	private CodeGenerationUtils() {}

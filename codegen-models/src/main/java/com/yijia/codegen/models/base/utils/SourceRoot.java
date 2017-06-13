@@ -1,11 +1,12 @@
 package com.yijia.codegen.models.base.utils;
 
-import com.yijia.codegen.models.base.JavaParser;
-import com.yijia.codegen.models.base.ParseProblemException;
-import com.yijia.codegen.models.base.ParseResult;
-import com.yijia.codegen.models.base.ast.CompilationUnit;
-import com.yijia.codegen.models.base.printer.PrettyPrinter;
-import com.yijia.codegen.models.base.printer.PrettyPrinterConfiguration;
+import static com.yijia.codegen.models.base.ParseStart.COMPILATION_UNIT;
+import static com.yijia.codegen.models.base.Providers.provider;
+import static com.yijia.codegen.models.base.utils.CodeGenerationUtils.fileInPackageRelativePath;
+import static com.yijia.codegen.models.base.utils.CodeGenerationUtils.packageAbsolutePath;
+import static com.yijia.codegen.models.base.utils.SourceRoot.Callback.Result.SAVE;
+import static com.yijia.codegen.models.base.utils.Utils.assertNotNull;
+
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
@@ -18,12 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import static com.yijia.codegen.models.base.ParseStart.COMPILATION_UNIT;
-import static com.yijia.codegen.models.base.Providers.provider;
-import static com.yijia.codegen.models.base.utils.CodeGenerationUtils.fileInPackageRelativePath;
-import static com.yijia.codegen.models.base.utils.CodeGenerationUtils.packageAbsolutePath;
-import static com.yijia.codegen.models.base.utils.SourceRoot.Callback.Result.SAVE;
-import static com.yijia.codegen.models.base.utils.Utils.*;
+
+import com.yijia.codegen.models.base.JavaParser;
+import com.yijia.codegen.models.base.ParseProblemException;
+import com.yijia.codegen.models.base.ParseResult;
+import com.yijia.codegen.models.base.ast.CompilationUnit;
+import com.yijia.codegen.models.base.printer.PrettyPrinter;
 
 /**
  * A collection of Java source files located in one directory and its subdirectories on the file system. Files can be parsed and written back one by one or all together.

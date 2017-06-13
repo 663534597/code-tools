@@ -1,24 +1,33 @@
 package com.yijia.codegen.models.base;
 
+import static com.yijia.codegen.models.base.ast.type.ArrayType.unwrapArrayTypes;
+import static com.yijia.codegen.models.base.ast.type.ArrayType.wrapInArrayTypes;
+
+import java.util.EnumSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+
+import com.yijia.codegen.models.base.GeneratedJavaParser.CustomToken;
 import com.yijia.codegen.models.base.ast.ArrayCreationLevel;
 import com.yijia.codegen.models.base.ast.Modifier;
 import com.yijia.codegen.models.base.ast.Node;
 import com.yijia.codegen.models.base.ast.NodeList;
 import com.yijia.codegen.models.base.ast.body.Parameter;
-import com.yijia.codegen.models.base.ast.expr.*;
+import com.yijia.codegen.models.base.ast.expr.AnnotationExpr;
+import com.yijia.codegen.models.base.ast.expr.ArrayCreationExpr;
+import com.yijia.codegen.models.base.ast.expr.ArrayInitializerExpr;
+import com.yijia.codegen.models.base.ast.expr.CastExpr;
+import com.yijia.codegen.models.base.ast.expr.EnclosedExpr;
+import com.yijia.codegen.models.base.ast.expr.Expression;
+import com.yijia.codegen.models.base.ast.expr.LambdaExpr;
+import com.yijia.codegen.models.base.ast.expr.NameExpr;
+import com.yijia.codegen.models.base.ast.expr.SimpleName;
 import com.yijia.codegen.models.base.ast.stmt.Statement;
 import com.yijia.codegen.models.base.ast.type.ArrayType;
 import com.yijia.codegen.models.base.ast.type.Type;
 import com.yijia.codegen.models.base.ast.type.UnknownType;
 import com.yijia.codegen.models.base.utils.Pair;
-import java.util.EnumSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import static com.yijia.codegen.models.base.GeneratedJavaParser.CustomToken;
-import static com.yijia.codegen.models.base.Position.pos;
-import static com.yijia.codegen.models.base.ast.type.ArrayType.unwrapArrayTypes;
-import static com.yijia.codegen.models.base.ast.type.ArrayType.wrapInArrayTypes;
 
 /**
  * Support class for {@link GeneratedJavaParser}

@@ -8,9 +8,10 @@
 
 package com.yijia.codegen.models.base.printer;
 
-import java.util.function.Function;
 import static com.yijia.codegen.models.base.utils.Utils.EOL;
 import static com.yijia.codegen.models.base.utils.Utils.assertNotNull;
+
+import java.util.function.Function;
 
 public class PrettyPrinterConfiguration {
 	private boolean printComments = true;

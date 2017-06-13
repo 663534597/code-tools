@@ -1,9 +1,10 @@
 package com.yijia.codegen.models.base.utils;
 
+import static com.yijia.codegen.models.base.utils.CodeGenerationUtils.f;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import static com.yijia.codegen.models.base.utils.CodeGenerationUtils.f;
 
 /**
  * To avoid dependencies on logging frameworks, we have invited yet another logging framework :-)

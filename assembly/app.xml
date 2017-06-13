@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app>
+
+	<!-- 服务信息 -->
+	<name>comp.user</name>
+	<version>1.0.1</version>
+
+	<!-- 服务协议 -->
+	<rpc>
+		<protocol switch="enable">REST</protocol>
+		<protocol switch="disable">GRPC</protocol>
+		<protocol switch="enable">THRIFT</protocol>
+	</rpc>
+
+	<!-- 开发者上传第三方依赖包 -->
+	<dependencies>
+		<!-- 指定要加入的依赖包 -->
+		<dependency>com.google.code.gson:gson</dependency>
+		<!-- 开发者上传包 -->
+		<dependency lib="weixin-1.1.4.jar">me.chanjar:weixin:1.1.4</dependency>
+		<dependency lib="weixin-java-mp-1.1.4.jar">me.chanjar:weixin-java-mp:1.1.4</dependency>
+		<dependency lib="weixin-java-common-1.1.4.jar">me.chanjar:weixin-java-common:1.1.4</dependency>
+
+		<!-- 通过预定义的模板添加依赖包
+		<dependency tempile="soa.xml" /> -->
+	</dependencies>
+
+	<!-- 数据源配置 -->
+	<datasource>
+	</datasource>
+
+	<configuration>
+		<component>
+			<compile>enable</compile>
+		</component>
+		<swagger>
+			<compile>disable</compile>
+		</swagger>
+	</configuration>
+
+</app>
