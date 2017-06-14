@@ -18,6 +18,14 @@
 			<groupId>com.yijia</groupId>
 			<artifactId>codegen-models</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>

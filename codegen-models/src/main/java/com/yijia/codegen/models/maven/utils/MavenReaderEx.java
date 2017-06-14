@@ -1,5 +1,5 @@
 
-package com.yijia.codegen.models.maven.util;
+package com.yijia.codegen.models.maven.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,7 +57,7 @@ import com.yijia.codegen.models.maven.Scm;
 import com.yijia.codegen.models.maven.Site;
 
 @SuppressWarnings("all")
-public class MavenXpp3ReaderEx {
+public class MavenReaderEx {
 
 	private boolean addDefaultEntities = true;
 
@@ -66,7 +66,7 @@ public class MavenXpp3ReaderEx {
 	 */
 	public final ContentTransformer contentTransformer;
 
-	public MavenXpp3ReaderEx() {
+	public MavenReaderEx() {
 		this(new ContentTransformer() {
 			public String transform(String source, String fieldName) {
 				return source;
@@ -74,7 +74,7 @@ public class MavenXpp3ReaderEx {
 		});
 	} // -- com.example.io.io.xpp3.MavenXpp3ReaderEx()
 
-	public MavenXpp3ReaderEx(ContentTransformer contentTransformer) {
+	public MavenReaderEx(ContentTransformer contentTransformer) {
 		this.contentTransformer = contentTransformer;
 	} // -- com.example.io.io.xpp3.MavenXpp3ReaderEx(ContentTransformer)
 

@@ -1,4 +1,4 @@
-package com.yijia.codegen.models.maven.util;
+package com.yijia.codegen.models.maven.utils;
 
 import java.io.OutputStream;
 import java.io.Writer;
@@ -55,7 +55,7 @@ import com.yijia.codegen.models.maven.Site;
  * @version $Revision$ $Date$
  */
 @SuppressWarnings("all")
-public class MavenXpp3Writer {
+public class MavenWriter {
 
 	/**
 	 * Field NAMESPACE.

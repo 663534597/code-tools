@@ -1,11 +1,16 @@
-package com.yijia.codegen.models.maven.util;
+package com.yijia.codegen.models.maven.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.codehaus.plexus.util.ReaderFactory;
 import org.codehaus.plexus.util.xml.pull.EntityReplacementMap;
 import org.codehaus.plexus.util.xml.pull.MXParser;
@@ -56,7 +61,7 @@ import com.yijia.codegen.models.maven.Scm;
 import com.yijia.codegen.models.maven.Site;
 
 @SuppressWarnings("all")
-public class MavenXpp3Reader {
+public class MavenReader {
 
 	private boolean addDefaultEntities = true;
 
@@ -65,7 +70,7 @@ public class MavenXpp3Reader {
 	 */
 	public final ContentTransformer contentTransformer;
 
-	public MavenXpp3Reader() {
+	public MavenReader() {
 		this(new ContentTransformer() {
 			public String transform(String source, String fieldName) {
 				return source;
@@ -73,7 +78,7 @@ public class MavenXpp3Reader {
 		});
 	}
 
-	public MavenXpp3Reader(ContentTransformer contentTransformer) {
+	public MavenReader(ContentTransformer contentTransformer) {
 		this.contentTransformer = contentTransformer;
 	}
 
@@ -86,7 +91,7 @@ public class MavenXpp3Reader {
 	 * @throws XmlPullParserException
 	 * @return boolean
 	 */
-	private boolean checkFieldWithDuplicate(XmlPullParser parser, String tagName, String alias, java.util.Set parsed) throws XmlPullParserException {
+	private boolean checkFieldWithDuplicate(XmlPullParser parser, String tagName, String alias, Set parsed) throws XmlPullParserException {
 		if (!(parser.getName().equals(tagName) || parser.getName().equals(alias))) {
 			return false;
 		}
@@ -106,7 +111,8 @@ public class MavenXpp3Reader {
 	 * @throws IOException
 	 */
 	private void checkUnknownAttribute(XmlPullParser parser, String attribute, String tagName, boolean strict) throws XmlPullParserException, IOException {
-		// strictXmlAttributes = true for model: if strict == true, not only elements are checked but attributes too
+		// strictXmlAttributes = true for model: if strict == true, not only
+		// elements are checked but attributes too
 		if (strict) {
 			throw new XmlPullParserException("Unknown attribute '" + attribute + "' for tag '" + tagName + "'", parser, null);
 		}
@@ -359,7 +365,8 @@ public class MavenXpp3Reader {
 			}
 		}
 		return s;
-	} // -- String getRequiredAttributeValue( String, String, XmlPullParser, boolean )
+	} // -- String getRequiredAttributeValue( String, String, XmlPullParser,
+		// boolean )
 
 	/**
 	 * Method getShortValue.
@@ -489,12 +496,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "activeByDefault", null, parsed)) {
 				activation.setActiveByDefault(getBooleanValue(interpolatedTrimmed(parser.nextText(), "activeByDefault"), "activeByDefault", parser, "false"));
@@ -529,12 +537,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "missing", null, parsed)) {
 				activationFile.setMissing(interpolatedTrimmed(parser.nextText(), "missing"));
@@ -563,12 +572,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "name", null, parsed)) {
 				activationOS.setName(interpolatedTrimmed(parser.nextText(), "name"));
@@ -601,12 +611,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "name", null, parsed)) {
 				activationProperty.setName(interpolatedTrimmed(parser.nextText(), "name"));
@@ -635,12 +646,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "sourceDirectory", null, parsed)) {
 				build.setSourceDirectory(interpolatedTrimmed(parser.nextText(), "sourceDirectory"));
@@ -653,7 +665,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "testOutputDirectory", null, parsed)) {
 				build.setTestOutputDirectory(interpolatedTrimmed(parser.nextText(), "testOutputDirectory"));
 			} else if (checkFieldWithDuplicate(parser, "extensions", null, parsed)) {
-				java.util.List<Extension> extensions = new java.util.ArrayList<Extension>();
+				List<Extension> extensions = new ArrayList<Extension>();
 				build.setExtensions(extensions);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("extension".equals(parser.getName())) {
@@ -665,7 +677,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "defaultGoal", null, parsed)) {
 				build.setDefaultGoal(interpolatedTrimmed(parser.nextText(), "defaultGoal"));
 			} else if (checkFieldWithDuplicate(parser, "resources", null, parsed)) {
-				java.util.List<Resource> resources = new java.util.ArrayList<Resource>();
+				List<Resource> resources = new ArrayList<Resource>();
 				build.setResources(resources);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("resource".equals(parser.getName())) {
@@ -675,7 +687,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "testResources", null, parsed)) {
-				java.util.List<Resource> testResources = new java.util.ArrayList<Resource>();
+				List<Resource> testResources = new ArrayList<Resource>();
 				build.setTestResources(testResources);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("testResource".equals(parser.getName())) {
@@ -689,7 +701,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "finalName", null, parsed)) {
 				build.setFinalName(interpolatedTrimmed(parser.nextText(), "finalName"));
 			} else if (checkFieldWithDuplicate(parser, "filters", null, parsed)) {
-				java.util.List<String> filters = new java.util.ArrayList<String>();
+				List<String> filters = new ArrayList<String>();
 				build.setFilters(filters);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("filter".equals(parser.getName())) {
@@ -701,7 +713,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "pluginManagement", null, parsed)) {
 				build.setPluginManagement(parsePluginManagement(parser, strict));
 			} else if (checkFieldWithDuplicate(parser, "plugins", null, parsed)) {
-				java.util.List<Plugin> plugins = new java.util.ArrayList<Plugin>();
+				List<Plugin> plugins = new ArrayList<Plugin>();
 				build.setPlugins(plugins);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("plugin".equals(parser.getName())) {
@@ -733,17 +745,18 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "defaultGoal", null, parsed)) {
 				buildBase.setDefaultGoal(interpolatedTrimmed(parser.nextText(), "defaultGoal"));
 			} else if (checkFieldWithDuplicate(parser, "resources", null, parsed)) {
-				java.util.List<Resource> resources = new java.util.ArrayList<Resource>();
+				List<Resource> resources = new ArrayList<Resource>();
 				buildBase.setResources(resources);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("resource".equals(parser.getName())) {
@@ -753,7 +766,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "testResources", null, parsed)) {
-				java.util.List<Resource> testResources = new java.util.ArrayList<Resource>();
+				List<Resource> testResources = new ArrayList<Resource>();
 				buildBase.setTestResources(testResources);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("testResource".equals(parser.getName())) {
@@ -767,7 +780,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "finalName", null, parsed)) {
 				buildBase.setFinalName(interpolatedTrimmed(parser.nextText(), "finalName"));
 			} else if (checkFieldWithDuplicate(parser, "filters", null, parsed)) {
-				java.util.List<String> filters = new java.util.ArrayList<String>();
+				List<String> filters = new ArrayList<String>();
 				buildBase.setFilters(filters);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("filter".equals(parser.getName())) {
@@ -779,7 +792,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "pluginManagement", null, parsed)) {
 				buildBase.setPluginManagement(parsePluginManagement(parser, strict));
 			} else if (checkFieldWithDuplicate(parser, "plugins", null, parsed)) {
-				java.util.List<Plugin> plugins = new java.util.ArrayList<Plugin>();
+				List<Plugin> plugins = new ArrayList<Plugin>();
 				buildBase.setPlugins(plugins);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("plugin".equals(parser.getName())) {
@@ -811,19 +824,20 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "system", null, parsed)) {
 				ciManagement.setSystem(interpolatedTrimmed(parser.nextText(), "system"));
 			} else if (checkFieldWithDuplicate(parser, "url", null, parsed)) {
 				ciManagement.setUrl(interpolatedTrimmed(parser.nextText(), "url"));
 			} else if (checkFieldWithDuplicate(parser, "notifiers", null, parsed)) {
-				java.util.List<Notifier> notifiers = new java.util.ArrayList<Notifier>();
+				List<Notifier> notifiers = new ArrayList<Notifier>();
 				ciManagement.setNotifiers(notifiers);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("notifier".equals(parser.getName())) {
@@ -855,12 +869,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "inherited", null, parsed)) {
 				configurationContainer.setInherited(interpolatedTrimmed(parser.nextText(), "inherited"));
@@ -871,7 +886,8 @@ public class MavenXpp3Reader {
 			}
 		}
 		return configurationContainer;
-	} // -- ConfigurationContainer parseConfigurationContainer( XmlPullParser, boolean )
+	} // -- ConfigurationContainer parseConfigurationContainer( XmlPullParser,
+		// boolean )
 
 	/**
 	 * Method parseContributor.
@@ -889,12 +905,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "name", null, parsed)) {
 				contributor.setName(interpolatedTrimmed(parser.nextText(), "name"));
@@ -907,7 +924,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "organizationUrl", "organisationUrl", parsed)) {
 				contributor.setOrganizationUrl(interpolatedTrimmed(parser.nextText(), "organizationUrl"));
 			} else if (checkFieldWithDuplicate(parser, "roles", null, parsed)) {
-				java.util.List<String> roles = new java.util.ArrayList<String>();
+				List<String> roles = new ArrayList<String>();
 				contributor.setRoles(roles);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("role".equals(parser.getName())) {
@@ -947,12 +964,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "groupId", null, parsed)) {
 				dependency.setGroupId(interpolatedTrimmed(parser.nextText(), "groupId"));
@@ -969,7 +987,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "systemPath", null, parsed)) {
 				dependency.setSystemPath(interpolatedTrimmed(parser.nextText(), "systemPath"));
 			} else if (checkFieldWithDuplicate(parser, "exclusions", null, parsed)) {
-				java.util.List<Exclusion> exclusions = new java.util.ArrayList<Exclusion>();
+				List<Exclusion> exclusions = new ArrayList<Exclusion>();
 				dependency.setExclusions(exclusions);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("exclusion".equals(parser.getName())) {
@@ -1003,15 +1021,16 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "dependencies", null, parsed)) {
-				java.util.List<Dependency> dependencies = new java.util.ArrayList<Dependency>();
+				List<Dependency> dependencies = new ArrayList<Dependency>();
 				dependencyManagement.setDependencies(dependencies);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("dependency".equals(parser.getName())) {
@@ -1025,7 +1044,8 @@ public class MavenXpp3Reader {
 			}
 		}
 		return dependencyManagement;
-	} // -- DependencyManagement parseDependencyManagement( XmlPullParser, boolean )
+	} // -- DependencyManagement parseDependencyManagement( XmlPullParser,
+		// boolean )
 
 	/**
 	 * Method parseDeploymentRepository.
@@ -1043,12 +1063,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "uniqueVersion", null, parsed)) {
 				deploymentRepository.setUniqueVersion(getBooleanValue(interpolatedTrimmed(parser.nextText(), "uniqueVersion"), "uniqueVersion", parser, "true"));
@@ -1069,7 +1090,8 @@ public class MavenXpp3Reader {
 			}
 		}
 		return deploymentRepository;
-	} // -- DeploymentRepository parseDeploymentRepository( XmlPullParser, boolean )
+	} // -- DeploymentRepository parseDeploymentRepository( XmlPullParser,
+		// boolean )
 
 	/**
 	 * Method parseDeveloper.
@@ -1087,12 +1109,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
 				developer.setId(interpolatedTrimmed(parser.nextText(), "id"));
@@ -1107,7 +1130,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "organizationUrl", "organisationUrl", parsed)) {
 				developer.setOrganizationUrl(interpolatedTrimmed(parser.nextText(), "organizationUrl"));
 			} else if (checkFieldWithDuplicate(parser, "roles", null, parsed)) {
-				java.util.List<String> roles = new java.util.ArrayList<String>();
+				List<String> roles = new ArrayList<String>();
 				developer.setRoles(roles);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("role".equals(parser.getName())) {
@@ -1147,12 +1170,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "repository", null, parsed)) {
 				distributionManagement.setRepository(parseDeploymentRepository(parser, strict));
@@ -1171,7 +1195,8 @@ public class MavenXpp3Reader {
 			}
 		}
 		return distributionManagement;
-	} // -- DistributionManagement parseDistributionManagement( XmlPullParser, boolean )
+	} // -- DistributionManagement parseDistributionManagement( XmlPullParser,
+		// boolean )
 
 	/**
 	 * Method parseExclusion.
@@ -1189,12 +1214,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "artifactId", null, parsed)) {
 				exclusion.setArtifactId(interpolatedTrimmed(parser.nextText(), "artifactId"));
@@ -1223,12 +1249,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "groupId", null, parsed)) {
 				extension.setGroupId(interpolatedTrimmed(parser.nextText(), "groupId"));
@@ -1259,17 +1286,18 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "directory", null, parsed)) {
 				fileSet.setDirectory(interpolatedTrimmed(parser.nextText(), "directory"));
 			} else if (checkFieldWithDuplicate(parser, "includes", null, parsed)) {
-				java.util.List<String> includes = new java.util.ArrayList<String>();
+				List<String> includes = new ArrayList<String>();
 				fileSet.setIncludes(includes);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("include".equals(parser.getName())) {
@@ -1279,7 +1307,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "excludes", null, parsed)) {
-				java.util.List<String> excludes = new java.util.ArrayList<String>();
+				List<String> excludes = new ArrayList<String>();
 				fileSet.setExcludes(excludes);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("exclude".equals(parser.getName())) {
@@ -1311,12 +1339,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "system", null, parsed)) {
 				issueManagement.setSystem(interpolatedTrimmed(parser.nextText(), "system"));
@@ -1345,12 +1374,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "name", null, parsed)) {
 				license.setName(interpolatedTrimmed(parser.nextText(), "name"));
@@ -1383,12 +1413,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "name", null, parsed)) {
 				mailingList.setName(interpolatedTrimmed(parser.nextText(), "name"));
@@ -1401,7 +1432,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "archive", null, parsed)) {
 				mailingList.setArchive(interpolatedTrimmed(parser.nextText(), "archive"));
 			} else if (checkFieldWithDuplicate(parser, "otherArchives", null, parsed)) {
-				java.util.List<String> otherArchives = new java.util.ArrayList<String>();
+				List<String> otherArchives = new ArrayList<String>();
 				mailingList.setOtherArchives(otherArchives);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("otherArchive".equals(parser.getName())) {
@@ -1433,14 +1464,16 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else if ("xmlns".equals(name)) {
-				// ignore xmlns attribute in root class, which is a reserved attribute name
+				// ignore xmlns attribute in root class, which is a reserved
+				// attribute name
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "modelVersion", null, parsed)) {
 				model.setModelVersion(interpolatedTrimmed(parser.nextText(), "modelVersion"));
@@ -1465,7 +1498,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "organization", "organisation", parsed)) {
 				model.setOrganization(parseOrganization(parser, strict));
 			} else if (checkFieldWithDuplicate(parser, "licenses", null, parsed)) {
-				java.util.List<License> licenses = new java.util.ArrayList<License>();
+				List<License> licenses = new ArrayList<License>();
 				model.setLicenses(licenses);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("license".equals(parser.getName())) {
@@ -1475,7 +1508,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "developers", null, parsed)) {
-				java.util.List<Developer> developers = new java.util.ArrayList<Developer>();
+				List<Developer> developers = new ArrayList<Developer>();
 				model.setDevelopers(developers);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("developer".equals(parser.getName())) {
@@ -1485,7 +1518,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "contributors", null, parsed)) {
-				java.util.List<Contributor> contributors = new java.util.ArrayList<Contributor>();
+				List<Contributor> contributors = new ArrayList<Contributor>();
 				model.setContributors(contributors);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("contributor".equals(parser.getName())) {
@@ -1495,7 +1528,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "mailingLists", null, parsed)) {
-				java.util.List<MailingList> mailingLists = new java.util.ArrayList<MailingList>();
+				List<MailingList> mailingLists = new ArrayList<MailingList>();
 				model.setMailingLists(mailingLists);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("mailingList".equals(parser.getName())) {
@@ -1507,7 +1540,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "prerequisites", null, parsed)) {
 				model.setPrerequisites(parsePrerequisites(parser, strict));
 			} else if (checkFieldWithDuplicate(parser, "modules", null, parsed)) {
-				java.util.List<String> modules = new java.util.ArrayList<String>();
+				List<String> modules = new ArrayList<String>();
 				model.setModules(modules);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("module".equals(parser.getName())) {
@@ -1533,7 +1566,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "dependencyManagement", null, parsed)) {
 				model.setDependencyManagement(parseDependencyManagement(parser, strict));
 			} else if (checkFieldWithDuplicate(parser, "dependencies", null, parsed)) {
-				java.util.List<Dependency> dependencies = new java.util.ArrayList<Dependency>();
+				List<Dependency> dependencies = new ArrayList<Dependency>();
 				model.setDependencies(dependencies);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("dependency".equals(parser.getName())) {
@@ -1543,7 +1576,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "repositories", null, parsed)) {
-				java.util.List<Repository> repositories = new java.util.ArrayList<Repository>();
+				List<Repository> repositories = new ArrayList<Repository>();
 				model.setRepositories(repositories);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("repository".equals(parser.getName())) {
@@ -1553,7 +1586,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "pluginRepositories", null, parsed)) {
-				java.util.List<Repository> pluginRepositories = new java.util.ArrayList<Repository>();
+				List<Repository> pluginRepositories = new ArrayList<Repository>();
 				model.setPluginRepositories(pluginRepositories);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("pluginRepository".equals(parser.getName())) {
@@ -1569,7 +1602,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "reporting", null, parsed)) {
 				model.setReporting(parseReporting(parser, strict));
 			} else if (checkFieldWithDuplicate(parser, "profiles", null, parsed)) {
-				java.util.List<Profile> profiles = new java.util.ArrayList<Profile>();
+				List<Profile> profiles = new ArrayList<Profile>();
 				model.setProfiles(profiles);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("profile".equals(parser.getName())) {
@@ -1601,15 +1634,16 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "modules", null, parsed)) {
-				java.util.List<String> modules = new java.util.ArrayList<String>();
+				List<String> modules = new ArrayList<String>();
 				modelBase.setModules(modules);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("module".equals(parser.getName())) {
@@ -1629,7 +1663,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "dependencyManagement", null, parsed)) {
 				modelBase.setDependencyManagement(parseDependencyManagement(parser, strict));
 			} else if (checkFieldWithDuplicate(parser, "dependencies", null, parsed)) {
-				java.util.List<Dependency> dependencies = new java.util.ArrayList<Dependency>();
+				List<Dependency> dependencies = new ArrayList<Dependency>();
 				modelBase.setDependencies(dependencies);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("dependency".equals(parser.getName())) {
@@ -1639,7 +1673,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "repositories", null, parsed)) {
-				java.util.List<Repository> repositories = new java.util.ArrayList<Repository>();
+				List<Repository> repositories = new ArrayList<Repository>();
 				modelBase.setRepositories(repositories);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("repository".equals(parser.getName())) {
@@ -1649,7 +1683,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "pluginRepositories", null, parsed)) {
-				java.util.List<Repository> pluginRepositories = new java.util.ArrayList<Repository>();
+				List<Repository> pluginRepositories = new ArrayList<Repository>();
 				modelBase.setPluginRepositories(pluginRepositories);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("pluginRepository".equals(parser.getName())) {
@@ -1685,12 +1719,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "type", null, parsed)) {
 				notifier.setType(interpolatedTrimmed(parser.nextText(), "type"));
@@ -1733,12 +1768,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "name", null, parsed)) {
 				organization.setName(interpolatedTrimmed(parser.nextText(), "name"));
@@ -1767,12 +1803,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "groupId", null, parsed)) {
 				parent.setGroupId(interpolatedTrimmed(parser.nextText(), "groupId"));
@@ -1805,15 +1842,16 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "includes", null, parsed)) {
-				java.util.List<String> includes = new java.util.ArrayList<String>();
+				List<String> includes = new ArrayList<String>();
 				patternSet.setIncludes(includes);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("include".equals(parser.getName())) {
@@ -1823,7 +1861,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "excludes", null, parsed)) {
-				java.util.List<String> excludes = new java.util.ArrayList<String>();
+				List<String> excludes = new ArrayList<String>();
 				patternSet.setExcludes(excludes);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("exclude".equals(parser.getName())) {
@@ -1855,12 +1893,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "groupId", null, parsed)) {
 				plugin.setGroupId(interpolatedTrimmed(parser.nextText(), "groupId"));
@@ -1871,7 +1910,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "extensions", null, parsed)) {
 				plugin.setExtensions(interpolatedTrimmed(parser.nextText(), "extensions"));
 			} else if (checkFieldWithDuplicate(parser, "executions", null, parsed)) {
-				java.util.List<PluginExecution> executions = new java.util.ArrayList<PluginExecution>();
+				List<PluginExecution> executions = new ArrayList<PluginExecution>();
 				plugin.setExecutions(executions);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("execution".equals(parser.getName())) {
@@ -1881,7 +1920,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "dependencies", null, parsed)) {
-				java.util.List<Dependency> dependencies = new java.util.ArrayList<Dependency>();
+				List<Dependency> dependencies = new ArrayList<Dependency>();
 				plugin.setDependencies(dependencies);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("dependency".equals(parser.getName())) {
@@ -1919,17 +1958,18 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "pluginManagement", null, parsed)) {
 				pluginConfiguration.setPluginManagement(parsePluginManagement(parser, strict));
 			} else if (checkFieldWithDuplicate(parser, "plugins", null, parsed)) {
-				java.util.List<Plugin> plugins = new java.util.ArrayList<Plugin>();
+				List<Plugin> plugins = new ArrayList<Plugin>();
 				pluginConfiguration.setPlugins(plugins);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("plugin".equals(parser.getName())) {
@@ -1943,7 +1983,8 @@ public class MavenXpp3Reader {
 			}
 		}
 		return pluginConfiguration;
-	} // -- PluginConfiguration parsePluginConfiguration( XmlPullParser, boolean )
+	} // -- PluginConfiguration parsePluginConfiguration( XmlPullParser, boolean
+		// )
 
 	/**
 	 * Method parsePluginContainer.
@@ -1961,15 +2002,16 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "plugins", null, parsed)) {
-				java.util.List<Plugin> plugins = new java.util.ArrayList<Plugin>();
+				List<Plugin> plugins = new ArrayList<Plugin>();
 				pluginContainer.setPlugins(plugins);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("plugin".equals(parser.getName())) {
@@ -2001,19 +2043,20 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
 				pluginExecution.setId(interpolatedTrimmed(parser.nextText(), "id"));
 			} else if (checkFieldWithDuplicate(parser, "phase", null, parsed)) {
 				pluginExecution.setPhase(interpolatedTrimmed(parser.nextText(), "phase"));
 			} else if (checkFieldWithDuplicate(parser, "goals", null, parsed)) {
-				java.util.List<String> goals = new java.util.ArrayList<String>();
+				List<String> goals = new ArrayList<String>();
 				pluginExecution.setGoals(goals);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("goal".equals(parser.getName())) {
@@ -2049,15 +2092,16 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "plugins", null, parsed)) {
-				java.util.List<Plugin> plugins = new java.util.ArrayList<Plugin>();
+				List<Plugin> plugins = new ArrayList<Plugin>();
 				pluginManagement.setPlugins(plugins);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("plugin".equals(parser.getName())) {
@@ -2089,12 +2133,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "maven", null, parsed)) {
 				prerequisites.setMaven(interpolatedTrimmed(parser.nextText(), "maven"));
@@ -2121,12 +2166,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
 				profile.setId(interpolatedTrimmed(parser.nextText(), "id"));
@@ -2135,7 +2181,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "build", null, parsed)) {
 				profile.setBuild(parseBuildBase(parser, strict));
 			} else if (checkFieldWithDuplicate(parser, "modules", null, parsed)) {
-				java.util.List<String> modules = new java.util.ArrayList<String>();
+				List<String> modules = new ArrayList<String>();
 				profile.setModules(modules);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("module".equals(parser.getName())) {
@@ -2155,7 +2201,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "dependencyManagement", null, parsed)) {
 				profile.setDependencyManagement(parseDependencyManagement(parser, strict));
 			} else if (checkFieldWithDuplicate(parser, "dependencies", null, parsed)) {
-				java.util.List<Dependency> dependencies = new java.util.ArrayList<Dependency>();
+				List<Dependency> dependencies = new ArrayList<Dependency>();
 				profile.setDependencies(dependencies);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("dependency".equals(parser.getName())) {
@@ -2165,7 +2211,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "repositories", null, parsed)) {
-				java.util.List<Repository> repositories = new java.util.ArrayList<Repository>();
+				List<Repository> repositories = new ArrayList<Repository>();
 				profile.setRepositories(repositories);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("repository".equals(parser.getName())) {
@@ -2175,7 +2221,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "pluginRepositories", null, parsed)) {
-				java.util.List<Repository> pluginRepositories = new java.util.ArrayList<Repository>();
+				List<Repository> pluginRepositories = new ArrayList<Repository>();
 				profile.setPluginRepositories(pluginRepositories);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("pluginRepository".equals(parser.getName())) {
@@ -2211,12 +2257,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "groupId", null, parsed)) {
 				relocation.setGroupId(interpolatedTrimmed(parser.nextText(), "groupId"));
@@ -2249,12 +2296,13 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "groupId", null, parsed)) {
 				reportPlugin.setGroupId(interpolatedTrimmed(parser.nextText(), "groupId"));
@@ -2263,7 +2311,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "version", null, parsed)) {
 				reportPlugin.setVersion(interpolatedTrimmed(parser.nextText(), "version"));
 			} else if (checkFieldWithDuplicate(parser, "reportSets", null, parsed)) {
-				java.util.List<ReportSet> reportSets = new java.util.ArrayList<ReportSet>();
+				List<ReportSet> reportSets = new ArrayList<ReportSet>();
 				reportPlugin.setReportSets(reportSets);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("reportSet".equals(parser.getName())) {
@@ -2299,17 +2347,18 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
 				reportSet.setId(interpolatedTrimmed(parser.nextText(), "id"));
 			} else if (checkFieldWithDuplicate(parser, "reports", null, parsed)) {
-				java.util.List<String> reports = new java.util.ArrayList<String>();
+				List<String> reports = new ArrayList<String>();
 				reportSet.setReports(reports);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("report".equals(parser.getName())) {
@@ -2345,19 +2394,20 @@ public class MavenXpp3Reader {
 			String value = parser.getAttributeValue(i);
 
 			if (name.indexOf(':') >= 0) {
-				// just ignore attributes with non-default namespace (for example: xmlns:xsi)
+				// just ignore attributes with non-default namespace (for
+				// example: xmlns:xsi)
 			} else {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "excludeDefaults", null, parsed)) {
 				reporting.setExcludeDefaults(interpolatedTrimmed(parser.nextText(), "excludeDefaults"));
 			} else if (checkFieldWithDuplicate(parser, "outputDirectory", null, parsed)) {
 				reporting.setOutputDirectory(interpolatedTrimmed(parser.nextText(), "outputDirectory"));
 			} else if (checkFieldWithDuplicate(parser, "plugins", null, parsed)) {
-				java.util.List<ReportPlugin> plugins = new java.util.ArrayList<ReportPlugin>();
+				List<ReportPlugin> plugins = new ArrayList<ReportPlugin>();
 				reporting.setPlugins(plugins);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("plugin".equals(parser.getName())) {
@@ -2394,7 +2444,7 @@ public class MavenXpp3Reader {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "releases", null, parsed)) {
 				repository.setReleases(parseRepositoryPolicy(parser, strict));
@@ -2436,7 +2486,7 @@ public class MavenXpp3Reader {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
 				repositoryBase.setId(interpolatedTrimmed(parser.nextText(), "id"));
@@ -2474,7 +2524,7 @@ public class MavenXpp3Reader {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "enabled", null, parsed)) {
 				repositoryPolicy.setEnabled(interpolatedTrimmed(parser.nextText(), "enabled"));
@@ -2510,7 +2560,7 @@ public class MavenXpp3Reader {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "targetPath", null, parsed)) {
 				resource.setTargetPath(interpolatedTrimmed(parser.nextText(), "targetPath"));
@@ -2519,7 +2569,7 @@ public class MavenXpp3Reader {
 			} else if (checkFieldWithDuplicate(parser, "directory", null, parsed)) {
 				resource.setDirectory(interpolatedTrimmed(parser.nextText(), "directory"));
 			} else if (checkFieldWithDuplicate(parser, "includes", null, parsed)) {
-				java.util.List<String> includes = new java.util.ArrayList<String>();
+				List<String> includes = new ArrayList<String>();
 				resource.setIncludes(includes);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("include".equals(parser.getName())) {
@@ -2529,7 +2579,7 @@ public class MavenXpp3Reader {
 					}
 				}
 			} else if (checkFieldWithDuplicate(parser, "excludes", null, parsed)) {
-				java.util.List<String> excludes = new java.util.ArrayList<String>();
+				List<String> excludes = new ArrayList<String>();
 				resource.setExcludes(excludes);
 				while (parser.nextTag() == XmlPullParser.START_TAG) {
 					if ("exclude".equals(parser.getName())) {
@@ -2566,7 +2616,7 @@ public class MavenXpp3Reader {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "connection", null, parsed)) {
 				scm.setConnection(interpolatedTrimmed(parser.nextText(), "connection"));
@@ -2581,7 +2631,7 @@ public class MavenXpp3Reader {
 			}
 		}
 		return scm;
-	} // -- Scm parseScm( XmlPullParser, boolean )
+	}
 
 	/**
 	 * Method parseSite.
@@ -2604,7 +2654,7 @@ public class MavenXpp3Reader {
 				checkUnknownAttribute(parser, name, tagName, strict);
 			}
 		}
-		java.util.Set parsed = new java.util.HashSet();
+		Set parsed = new HashSet();
 		while ((strict ? parser.nextTag() : nextTag(parser)) == XmlPullParser.START_TAG) {
 			if (checkFieldWithDuplicate(parser, "id", null, parsed)) {
 				site.setId(interpolatedTrimmed(parser.nextText(), "id"));
@@ -2649,7 +2699,7 @@ public class MavenXpp3Reader {
 			return model;
 		}
 		throw new XmlPullParserException("Expected root element 'project' but found no element at all: invalid XML document", parser, null);
-	} // -- Model read( XmlPullParser, boolean )
+	}
 
 	/**
 	 * Sets the state of the "add default entities" flag.
@@ -2657,13 +2707,14 @@ public class MavenXpp3Reader {
 	 */
 	public void setAddDefaultEntities(boolean addDefaultEntities) {
 		this.addDefaultEntities = addDefaultEntities;
-	} // -- void setAddDefaultEntities( boolean )
+	}
 
 	public static interface ContentTransformer {
 		/**
 		 * Interpolate the value read from the xpp3 document
 		 * @param source The source value
-		 * @param fieldName A description of the field being interpolated. The implementation may use this to log stuff.
+		 * @param fieldName A description of the field being interpolated. The
+		 *            implementation may use this to log stuff.
 		 * @return The interpolated value.
 		 */
 		String transform(String source, String fieldName);

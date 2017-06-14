@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <app>
-
 	<!-- 服务信息 -->
 	<name>comp.user</name>
+	<owner>CEB.MIS</owner>
 	<version>1.0.1</version>
-
-	<!-- 服务协议 -->
-	<rpc>
-		<protocol switch="enable">REST</protocol>
-		<protocol switch="disable">GRPC</protocol>
-		<protocol switch="enable">THRIFT</protocol>
-	</rpc>
 
 	<!-- 开发者上传第三方依赖包 -->
 	<dependencies>
@@ -25,17 +18,14 @@
 		<dependency tempile="soa.xml" /> -->
 	</dependencies>
 
-	<!-- 数据源配置 -->
-	<datasource>
-	</datasource>
-
 	<configuration>
 		<component>
 			<compile>enable</compile>
 		</component>
-		<swagger>
-			<compile>disable</compile>
-		</swagger>
 	</configuration>
+
+	<properties>
+		<property name="" value=""/>
+	</properties>
 
 </app>
