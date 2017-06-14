@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity>
+	<meta>
+		<table>数据库表名</table>
+		<comment>注释</comment>
+	</meta>
+	<member>
+		<id name="主键名称" column="数据库列名称" type="字段类型" lenght="字段长度">
+			<generator></generator>
+		</id>
+		<field name="字段名称" column="数据库列名称" type="字段类型" defaultValue="默认值" transient="是否持久化">
+			<comment></comment>
+		</field>
+		<field name="字段名称 " column="数据库列名称" type="字段类型" lenght="字段长度" repeated="循环的" required="必须的" unsigned="无符号的" defaultValue="[NONE|CUSTOM]|AUTO|UUID|SYSDATE">
+			<comment>字段注释</comment>
+			<column>数据库列名称</column>
+			<validation>
+				<min value=""/>
+				<man value=""/>
+				<size value=""/>
+			</validation>
+		</field>
+		<mapping name="字段名称" type="字段类型" kind="OneToMany|OneToOne|ManyToOne|ManyToMany" column="数据库列名称" required="必须的">
+			<class></class>
+			<cascade>all</cascade>
+			<fetch>FetchType.LAZY|FetchType.EAGER</fetch>
+		</mapping>
+		<component name="字段名称" type="字段类型">
+			<field name="字段名称" type="字段类型" />
+		</component>
+	</member>
+	<indexing>
+		<index name="索引名称" type="UNIQUE|FULLTEXT|SPATIAL" algorithm="NONE|BTREE|RTREE|HASH">
+			<field name="字段名称"/>
+		</index>
+	</indexing>
+	<access>
+		<method name="方法名称" operate="SELECT|DELETE|UPDATE|INSERT">
+			<query sql=""/>
+			<args>
+				<arg></arg>
+			</args>
+			<result pageable="true|false" repeated="循环的" type="this|String|Integer"/>
+		</method>
+	</access>
+</entity>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view>
+
+	<member>
+		<field name="名称 " type="类型" lenght="长度" isNULL="可空" unsigned="无符号的" defaultValue="[NONE|CUSTOM]|AUTO|UUID|SYSDATE">
+			<label>字段</label>
+		</field>
+	</member>
+	<mappers>
+		<insert></insert>
+		<delete></delete>
+		<update></update>
+		<select></select>
+	</mappers>
+</view>

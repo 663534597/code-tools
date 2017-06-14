@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api>
+	<meta>
+		<comment>注释</comment>
+	</meta>
+
+	<references>
+		<use service="" />
+	</references>
+
+	<service name="" staerm="" >
+
+		<label></label>
+		<description></description>
+
+		<param type=""/>
+		<reply type=""/>
+
+		<rest path="" method="" kind="">
+			<head name=""/>
+			<cookie name=""/>
+			<session name=""/>
+		</rest>
+
+	</service>
+
+</api>
