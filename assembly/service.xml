@@ -32,10 +32,15 @@
 
 	<!-- 注册中心配置 -->
 	<registry>
-		<connectstr>10.20.141.150:9090,10.20.141.151:9090</connectstr>
+		<connectstr>192.168.1.101:9090,192.168.1.102:9090</connectstr>
+		<heartbeat>/#{ServiceAppName}/resource/meta/information.json</heartbeat>
 		<timeout>30000</timeout>
 		<auth>[BASE]YWRtaW46MTIzNDU=</auth>
 	</registry>
+	<!-- 监控中性配置 -->
+	<monitor>
+		<connectstr>192.168.1.111:9090,192.168.1.112:9090</connectstr>
+	</monitor>
 
 	<!-- 数据源配置 -->
 	<datasource>

@@ -5,12 +5,10 @@
 	</meta>
 
 	<references>
-		<use service="" />
+		<use service="" api=""/>
 	</references>
 
 	<service name="" staerm="" >
-
-		<label></label>
 		<description></description>
 
 		<param type=""/>

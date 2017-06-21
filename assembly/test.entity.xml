@@ -5,42 +5,89 @@
 		<comment>注释</comment>
 	</meta>
 	<member>
-		<id name="主键名称" column="数据库列名称" type="字段类型" lenght="字段长度">
-			<generator></generator>
+		<!--
+		  - 主键定义
+		  - 
+		  - 	@GeneratedValue(strategy = GenerationType.AUTO)
+		  -
+		  - 	@GenericGenerator(name = "generator", strategy = "increment")
+		  - 	@GeneratedValue(generator = "generator")
+		  - 	@GenericGenerator(name = "uuid", strategy = "uuid2")
+		  - 	@GeneratedValue(generator = "uuid")
+		  - 	
+		  - 	@TableGenerator( name = "emailSeq", table = "MY_PROJECT_SEQUENCE_TABLE", pkColumnName = "SEQUENCE_NAME", valueColumnName = "SEQUENCE_COUNT", initialValue = 1, allocationSize = 1)
+		  - 	@GeneratedValue( strategy = GenerationType.TABLE, generator = "emailSeq")
+		  - 	
+		  - 	@SequenceGenerator(initialValue = 1, name = "emailSeq", sequenceName = "EMAIL_SEQUENCE")
+		  - 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "emailSeq")
+		  - 	
+		 -->
+		<id name="主键名称" type="字段类型" lenght="字段长度">
+			<generator type="主键生成策略[AUTO(默认)|TABLE|SEQUENCE|IDENTITY|CUSTOM]">
+				<sequence name="generator" sequenceName="COMMON_SEQ" initialValue="10"/>
+				<generic name="generator" strategy="生成策略[guid|uuid|uuid.hex|assigned|identity|increment|native|hilo]"/>
+				<table name="generator" table="序列表" pkColumnName="SEQUENCE_NAME" valueColumnName="SEQUENCE_VALUE" initialValue="1" allocationSize="50"/>
+			</generator>
+			<comment text="字段注释"/>
+			<column name="数据库列名称"/>
 		</id>
-		<field name="字段名称" column="数据库列名称" type="字段类型" defaultValue="默认值" transient="是否持久化">
-			<comment></comment>
-		</field>
-		<field name="字段名称 " column="数据库列名称" type="字段类型" lenght="字段长度" repeated="循环的" required="必须的" unsigned="无符号的" defaultValue="[NONE|CUSTOM]|AUTO|UUID|SYSDATE">
-			<comment>字段注释</comment>
-			<column>数据库列名称</column>
+		<!--
+		  - 普通字段定义
+		 -->
+		<field name="字段名称 " type="字段类型" lenght="字段长度" repeated="循环的[TRUE|FALSE(默认)]" required="必须的[TRUE|FALSE(默认)]" unsigned="无符号的[TRUE|FALSE(默认)]" defaultValue="NONE(默认)|CUSTOM|AUTO|UUID|SYSDATE">
+			<comment text="字段注释"/>
+			<column name="数据库列名称"/>
 			<validation>
-				<min value=""/>
-				<man value=""/>
-				<size value=""/>
+				<rule name="min" value=""/>
+				<rule name="man" value=""/>
+				<rule name="size" value=""/>
 			</validation>
 		</field>
-		<mapping name="字段名称" type="字段类型" kind="OneToMany|OneToOne|ManyToOne|ManyToMany" column="数据库列名称" required="必须的">
-			<class></class>
-			<cascade>all</cascade>
-			<fetch>FetchType.LAZY|FetchType.EAGER</fetch>
+		<!--
+		  - 关系映射定义
+		  - cascade(): CascadeType.ALL(默认)|CascadeType.PERSIST|CascadeType.MERGE|CascadeType.REMOVE|CascadeType.REFRESH|CascadeType.DETACH
+		  -   fetch(): FetchType.LAZY|FetchType.EAGER(默认)
+		  -    kind(): OneToOne(默认)|OneToMany|ManyToOne|ManyToMany
+		  -
+		  - 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "", optional = true, orphanRemoval = false, targetEntity = Time.class)
+		  - 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "", orphanRemoval = false, targetEntity = Time.class)
+		  - 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true, targetEntity = Time.class)
+		  - 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "", targetEntity = Time.class)
+		  - 
+		  -     @JoinColumn(name = "", unique = false, nullable = true, table = "")
+		 -->
+		<mapping name="字段名称"  mappedBy="" target="字段类型" cascade="级联操作" fetch="延迟加载" kind="关联方式" required="必须的[TRUE|FALSE(默认)]">
+			<join name="" unique="唯一的[TRUE|FALSE(默认)]" required="必须的[TRUE|FALSE(默认)]"/>
+			<comment text="字段注释"/>
+			<column name="数据库列名称"/>
 		</mapping>
+		<!--
+		  - 组合字段定义
+		 -->
 		<component name="字段名称" type="字段类型">
 			<field name="字段名称" type="字段类型" />
+			<comment text="字段注释"/>
 		</component>
+		<!--
+		  - 不需要持久化的字段定义
+		 -->
+		<transient name="字段名称" type="字段类型">
+			<comment text="字段注释"/>
+		</transient>
 	</member>
 	<indexing>
-		<index name="索引名称" type="UNIQUE|FULLTEXT|SPATIAL" algorithm="NONE|BTREE|RTREE|HASH">
+		<index name="索引名称" type="索引类型[UNIQUE|FULLTEXT|SPATIAL]" algorithm="NONE(默认)|BTREE|RTREE|HASH">
 			<field name="字段名称"/>
+			<comment text="索引注释"/>
 		</index>
 	</indexing>
 	<access>
-		<method name="方法名称" operate="SELECT|DELETE|UPDATE|INSERT">
-			<query sql=""/>
-			<args>
-				<arg></arg>
-			</args>
-			<result pageable="true|false" repeated="循环的" type="this|String|Integer"/>
-		</method>
+		<function name="方法名称" operate="QUERY类型[SELECT(默认)|DELETE|UPDATE|INSERT]">
+			<comment text="函数注释"/>
+			<condition sql="">
+				<arg key="条件KEY" name="参数名称"/>
+			</condition>
+			<result pageable="分页[true|false(默认)]" repeated="循环的[TRUE(默认)|FALSE]" type="One(默认)|String|Integer"/>
+		</function>
 	</access>
 </entity>

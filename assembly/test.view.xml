@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <view>
-
+	<meta>
+		<alias>test</alias>
+		<comment>注释</comment>
+	</meta>
 	<member>
-		<field name="名称 " type="类型" lenght="长度" isNULL="可空" unsigned="无符号的" defaultValue="[NONE|CUSTOM]|AUTO|UUID|SYSDATE">
+		<field name="名称 " type="类型" alias="" nullValue="">
 			<label>字段</label>
 		</field>
 	</member>
 	<mappers>
-		<insert></insert>
-		<delete></delete>
-		<update></update>
-		<select></select>
+		<insert id="" primaryMap=""></insert>
+		<delete id="" primaryMap="" primaryValue=""></delete>
+		<update id="" primaryMap="" primaryValue=""></update>
+		<select id="" parameterMap="" parameterType="int" resultMap="" resultType="hashmap"></select>
 	</mappers>
 </view>
