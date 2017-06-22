@@ -1,59 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <service>
 
-	<!--
-	  - PUBLIC 通用编译配置
-	  -->
+	<!-- - PUBLIC 通用编译配置 -->
 
 	<mode>bundle</mode>
 	<group>com.justep.cloud</group>
 
 	<!-- 控制编译结果输出配置 -->
 	<!-- 应用上下文根 -->
-	<property name="context.root" value="/service"/>
+	<property name="context.root" value="/service" />
 	<!-- 设置打包方式是输出成 WAR/JAR -->
-	<property name="packaging" value="WAR"/>
+	<property name="packaging" value="WAR" />
 	<!-- 配置输出形式（默认：NONE） -->
-	<property name="build.modality" value="NONE|ZIP|TAR|TGZ|TBZ|DIR"/>
+	<property name="build.modality" value="NONE|ZIP|TAR|TGZ|TBZ|DIR" />
 	<!-- 配置输出目录 -->
-	<property name="build.output" value="#{ROOT_HOME}/model/service/dist"/>
+	<property name="build.output" value="#{ROOT_HOME}/model/service/dist" />
 	<!-- API输出目录 -->
-	<property name="api.output" value="views/resources/js/#{ServiceAppName}/"/>
+	<property name="api.output" value="views/resources/js/#{ServiceAppName}/" />
 
 
-	<!--
-	  - BUNDLE 模式编译配置(把所有的微服务打到一个包中)
-	  -->
+	<!-- - BUNDLE 模式编译配置(把所有的微服务打到一个包中) -->
 
 
-	<!--
-	  - CLOUD 模式编译配置(每个微服务都是一个独立的包)
-	  -->
+	<!-- - CLOUD 模式编译配置(每个微服务都是一个独立的包) -->
 
 	<!-- 注册中心配置 -->
 	<registry>
 		<connectstr>192.168.1.101:9090,192.168.1.102:9090</connectstr>
-		<heartbeat>/#{ServiceAppName}/resource/meta/information.json</heartbeat>
+		<heartbeat>/#{ServiceAppName}/resource/meta/information.json
+		</heartbeat>
 		<timeout>30000</timeout>
 		<auth>[BASE]YWRtaW46MTIzNDU=</auth>
 	</registry>
 	<!-- 监控中性配置 -->
 	<monitor>
 		<connectstr>192.168.1.111:9090,192.168.1.112:9090</connectstr>
+		<period>600000L</period>
 	</monitor>
 
 	<!-- 数据源配置 -->
 	<datasource>
-		<!-- 从外部读取 persistence.xml  -->
-		<persistence path="#{ROOT_HOME}/conf/persistence.xml"/>
+		<!-- 从外部读取 persistence.xml -->
+		<persistence path="#{ROOT_HOME}/conf/persistence.xml" />
 
 		<!-- JDBC 数据源配置 -->
-		<jdbc name="X5Boot-JDBC-Unit" show-sql="true" format-sql="false" ddl-auto="update">
+		<jdbc name="X5Boot-JDBC-Unit" show-sql="true" format-sql="false"
+			ddl-auto="update">
 			<!-- 读取配置文件配置 -->
 			<target path="#{ROOT_HOME}/conf/datasource.xml" />
 		</jdbc>
 
-		<jdbc name="X5Boot-JDBC-Unit" show-sql="true" format-sql="false" ddl-auto="update">
+		<jdbc name="X5Boot-JDBC-Unit" show-sql="true" format-sql="false"
+			ddl-auto="update">
 			<property name="url" value="jdbc:mysql://localhost:3306/test" />
 			<property name="username" value="root" />
 			<property name="password" value="x5" />
@@ -87,8 +85,8 @@
 		</properties>
 	</datasource>
 
-	<!-- 
-	<data key="KEY" value="VALUE"/>
+	<!--
+	<data key="KEY" value="VALUE" />
 	<data key="KEY">VALUE</data>
 	<data key="KEY" type="Map">
 		<entry name="NAME1">VALUE1</entry>

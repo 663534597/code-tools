@@ -5,14 +5,28 @@
 		<comment>注释</comment>
 	</meta>
 	<member>
-		<field name="名称 " type="类型" alias="" nullValue="">
+		<field name="名称 " type="类型" repeated="循环的[TRUE|FALSE(默认)]" alias="别名" nullValue="">
 			<label>字段</label>
 		</field>
 	</member>
 	<mappers>
-		<insert id="" primaryMap=""></insert>
-		<delete id="" primaryMap="" primaryValue=""></delete>
-		<update id="" primaryMap="" primaryValue=""></update>
-		<select id="" parameterMap="" parameterType="int" resultMap="" resultType="hashmap"></select>
+		<insert id="insertAuthor" parameterType="domain.blog.Author"
+			flushCache="true" statementType="PREPARED" keyProperty="" keyColumn=""
+			useGeneratedKeys="" timeout="20">
+		</insert>
+
+		<delete id="deleteAuthor" parameterType="domain.blog.Author"
+			flushCache="true" statementType="PREPARED" timeout="20">
+		</delete>
+
+		<update id="updateAuthor" parameterType="domain.blog.Author"
+			flushCache="true" statementType="PREPARED" timeout="20">
+		</update>
+
+		<select id="selectPerson" parameterType="map" resultType="hashmap"
+			resultMap="personResultMap" flushCache="false" useCache="true"
+			timeout="10000" fetchSize="256" statementType="PREPARED"
+			resultSetType="FORWARD_ONLY">
+		</select>
 	</mappers>
 </view>

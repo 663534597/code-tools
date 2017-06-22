@@ -11,7 +11,9 @@
 	<service name="" staerm="" >
 		<description></description>
 
-		<param type=""/>
+		<param>
+			<field name="" type=""></field>
+		</param>
 		<reply type=""/>
 
 		<rest path="" method="" kind="">

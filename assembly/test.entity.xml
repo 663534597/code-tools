@@ -84,9 +84,9 @@
 	<access>
 		<function name="方法名称" operate="QUERY类型[SELECT(默认)|DELETE|UPDATE|INSERT]">
 			<comment text="函数注释"/>
-			<condition sql="">
-				<arg key="条件KEY" name="参数名称"/>
-			</condition>
+			<query sql="">
+				<param name="参数名"/>
+			</query>
 			<result pageable="分页[true|false(默认)]" repeated="循环的[TRUE(默认)|FALSE]" type="One(默认)|String|Integer"/>
 		</function>
 	</access>
