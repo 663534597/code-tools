@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+import com.yijia.codegen.config.nio.handler.NioHandlerBuilder;
 import com.yijia.codegen.core.Config;
 import com.yijia.codegen.core.Server;
 
@@ -25,25 +27,22 @@ import com.yijia.codegen.core.Server;
  */
 public class GenServer implements Server {
 
-    private static final int DEFAULT_PORT = 8088;
-    private static final long DEFAULT_TIMEOUT = 3000;
+	private static final int DEFAULT_PORT = 8088;
+	private static final long DEFAULT_TIMEOUT = 3000;
 
 	private final String workdir;
 
 	private long startTime;
 	private GenConfig config;
 
-	private GenServer() {
-		this.workdir = System.getProperty("user.dir");
-		this.address = new InetSocketAddress("127.0.0.1", DEFAULT_PORT);
-	}
-
 	private boolean started = false;
 	private ExecutorService executor;
-    private Selector selector;
-    private ServerSocketChannel channel;
-    private InetSocketAddress address;
+	private Selector selector;
+	private ServerSocketChannel channel;
 
+	private GenServer() {
+		this.workdir = System.getProperty("user.dir");
+	}
 
 	private void init() throws Exception {
 		this.startTime = System.currentTimeMillis();
@@ -92,23 +91,23 @@ public class GenServer implements Server {
 		});
 
 		System.out.printf("server is up. [StartTime: %tF]%n", startTime);
-		while(started && selector != null) {
+		while (started && selector != null) {
 			if (selector.select(DEFAULT_TIMEOUT) == 0)
 				continue;
-			
+
 			Iterator<SelectionKey> iter = selector.selectedKeys().iterator();
 			while (iter.hasNext()) {
 				SelectionKey key = iter.next();
 				if (key.isAcceptable())
 					NioHandlerBuilder.getHandler("accept").handler(key);
-				
+
 				if (key.isReadable())
 					NioHandlerBuilder.getHandler("reader").handler(key);
-				
+
 				if (key.isValid() && key.isWritable())
 					NioHandlerBuilder.getHandler("writer").handler(key);
-				
-				iter.remove(); 
+
+				iter.remove();
 			}
 		}
 
@@ -143,20 +142,20 @@ public class GenServer implements Server {
 	public void shutdown() {
 		if (!started)
 			started = false;
-		if(!executor.isShutdown()) {
+		if (!executor.isShutdown()) {
 			try {
 				executor.shutdownNow();
 				executor.awaitTermination(500L, TimeUnit.MICROSECONDS);
 			} catch (InterruptedException e) {
 			}
 		}
-		if(channel.isOpen()) {
+		if (channel.isOpen()) {
 			try {
 				channel.close();
 			} catch (IOException e1) {
 			}
 		}
-		if(selector.isOpen()) {
+		if (selector.isOpen()) {
 			try {
 				selector.close();
 			} catch (IOException e1) {
