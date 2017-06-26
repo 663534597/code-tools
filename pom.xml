@@ -10,6 +10,7 @@
 		<module>codegen-api</module>
 		<module>codegen-config</module>
 		<module>codegen-models</module>
+		<module>codegen-net</module>
 	</modules>
 
 	<properties>
